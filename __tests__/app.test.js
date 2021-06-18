@@ -9,7 +9,7 @@ describe('/api/v1/orders', () => {
   });
   const order = {
     userName: 'Bob',
-    order: [{ item: 'tooth-brush', quantity: 2 }, { item: 'tooth-paste', quantity: 5 }]
+    items: [{ item: 'tooth-brush', quantity: 2 }, { item: 'tooth-paste', quantity: 5 }]
   };
   it('inserts an order into /api/v1/orders  ', async () => {
     const res = await request(app)
@@ -17,9 +17,6 @@ describe('/api/v1/orders', () => {
       .send(order);
 
     expect(res.status).toBe(200);
-    expect(res.body).toEqual([
-      { id: '1', item: 'tooth-brush', quantity: 2, userName: 'Bob' },
-      { id: '2', item: 'tooth-paste', quantity: 5, userName: 'Bob' }
-    ]);
+    expect(res.body).toEqual({ id: expect.any(String), ...order });
   });
 });

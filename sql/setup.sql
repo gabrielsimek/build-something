@@ -1,9 +1,7 @@
 DROP TABLE IF EXISTS orders;
 
 CREATE TABLE orders (
-    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    item TEXT NOT NULL,
-    quantity INTEGER CHECK (quantity > 0),
-    user_name TEXT NOT NULL
+  id BIGINT GENERATED ALWAYS AS IDENTITY,
+  user_name TEXT NOT NULL,
+  items JSON[]
 );
-
