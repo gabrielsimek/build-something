@@ -3,13 +3,23 @@ import setup from '../data/setup.js';
 import request from 'supertest';
 import app from '../lib/app.js';
 
-describe('demo routes', () => {
+describe('/api/v1/orders', () => {
   beforeEach(() => {
     return setup(pool);
   });
-  it('tests my repo', () => {
-    const a = 1;
-    const b = 2;
-    expect(a).toBe(b);
+  const order = {
+    userName: 'Bob',
+    order: [{ item: 'tooth-brush', quantity: 2 }, { item: 'tooth-paste', quantity: 5 }]
+  };
+  it('inserts an order into /api/v1/orders  ', async () => {
+    const res = await request(app)
+      .post('/api/v1/orders')
+      .send(order);
+
+    expect(res.status).toBe(200);
+    expect(res.body).toBe([
+      { id: '1', item: 'tooth-brush', quantity: 2, userName: 'Bob' },
+      { id: '2', item: 'tooth-paste', quantity: 5, userName: 'Bob' }
+    ]);
   });
 });
