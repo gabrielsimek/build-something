@@ -48,7 +48,7 @@ describe('/api/v1/orders', () => {
       .send({ items: [{ item: 'tooth-brush', quantity: 10 }] });
 
     order.items =  [{ item: 'tooth-brush', quantity: 10 }];
-    // expect(res.status).toBe(200);
+ 
     expect(res.body).toEqual(order);
   });
   it('deletes an order from /api/v1/orders:id', async () => {

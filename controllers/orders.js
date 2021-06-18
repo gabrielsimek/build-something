@@ -1,9 +1,14 @@
 import { Router } from 'express';
 import Order from '../models/Order';
+import sendText from '../lib/utils/twilio.js';
 
 export default Router()
   .post('/', async (req, res, next) => {
     try {
+      const message = await sendText(process.env.ORDER_HANDLER_NUMBER, process.env.TWILIO_NUMBER, 'Hello');
+      console.log('orders.js', message)
+      
+      ;
       const order = await Order.insert(req.body);
       res.send(order);
     } catch (error) {
@@ -35,12 +40,8 @@ export default Router()
       next(error);
     }
   })
-  .delete('/:id', async (req, res, next) => {
-    try {
-      const deletedOrder = await Order.remove(req.params.id);
-      res.send(deletedOrder);
-      
-    } catch (error) {
-      next(error);
-    }
+  .delete('/:id', (req, res, next) => {
+    Order.remove(req.params.id)
+      .then(order => res.send(order))
+      .catch(error => next(error));
   });
