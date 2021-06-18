@@ -17,13 +17,46 @@ export default class Order {
         VALUES ($1, $2)
         RETURNING *
       `, [userName, items]
-      );
-      
+      ); 
       return new Order(rows[0]);
+    }
 
-      //JSON b insert entire obj as one row
-      //setup sql
-      //
+    static async findById(id){
+      const { rows } = await pool.query(
+        `SELECT * FROM orders
+        WHERE id = $1
+      `, [id]
+      ); 
+      return new Order(rows[0]);
+    }
+
+    static async findAll(){
+      const { rows } = await pool.query(`
+      SELECT * FROM orders
+      `);
+      return rows.map(order => new Order(order));
+    }
+
+    static async update({ items }, id){
+      const { rows } = await pool.query(
+        `UPDATE orders
+        SET items = $1
+        WHERE id = $2
+        RETURNING *
+        `, [items, id]
+      );
+      return new Order(rows[0]);
+    }
+
+    static remove(id){
+      return pool.query(
+        `DELETE FROM orders
+          WHERE id = $1
+          RETURNING *
+        `, [id]
+      ).then(({ rows }) => new Order(rows[0]));
       
     }
+
+
 }
