@@ -1,9 +1,9 @@
-DROP TABLE IF EXISTS profiles;
+DROP TABLE IF EXISTS orders;
 
-CREATE TABLE profiles (
+CREATE TABLE orders (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    name TEXT NOT NULL,
-    favorite_character TEXT NOT NULL,
-    tagline TEXT NOT NULL
+    item TEXT NOT NULL,
+    quantity INTEGER CHECK (quantity > 0),
+    user_name TEXT NOT NULL
 );
 

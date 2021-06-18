@@ -17,7 +17,7 @@ describe('/api/v1/orders', () => {
       .send(order);
 
     expect(res.status).toBe(200);
-    expect(res.body).toBe([
+    expect(res.body).toEqual([
       { id: '1', item: 'tooth-brush', quantity: 2, userName: 'Bob' },
       { id: '2', item: 'tooth-paste', quantity: 5, userName: 'Bob' }
     ]);
