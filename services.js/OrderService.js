@@ -1,6 +1,7 @@
 import Order from '../models/Order';
 import sendSms from '../lib/utils/twilio.js';
 import createMessageBody from '../lib/utils/createMessagebody';
+import sendEmail from '../lib/utils/ses_sendemail';
 export default class OrderService {
   static async create(order, method){
     const newOrder = await Order.insert(order);
@@ -12,6 +13,14 @@ export default class OrderService {
       process.env.TWILIO_NUMBER,
       messageBody
     );
+
+    await sendEmail(
+      process.env.ORDER_HANDLER_EMAIL,
+      process.env.AWS_SES_EMAIL,
+      messageBody.split(' ').slice(0, 2).join(' '),
+      messageBody
+    );
+
     return newOrder;
   }
 
@@ -23,6 +32,13 @@ export default class OrderService {
     await sendSms(
       process.env.ORDER_HANDLER_NUMBER,
       process.env.TWILIO_NUMBER,
+      messageBody
+    );
+
+    await sendEmail(
+      process.env.ORDER_HANDLER_EMAIL,
+      process.env.AWS_SES_EMAIL,
+      messageBody.split(' ').slice(0, 2).join(' '),
       messageBody
     );
     
@@ -39,6 +55,14 @@ export default class OrderService {
       process.env.TWILIO_NUMBER,
       messageBody
     );
+    
+    await sendEmail(
+      process.env.ORDER_HANDLER_EMAIL,
+      process.env.AWS_SES_EMAIL,
+      messageBody.split(' ').slice(0, 2).join(' '),
+      messageBody
+    );
+
     return deletedOrder;
   }
 }

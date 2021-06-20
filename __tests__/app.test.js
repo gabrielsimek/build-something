@@ -56,8 +56,10 @@ describe('/api/v1/orders', () => {
   it('deletes an order from /api/v1/orders:id', async () => {
     const order = await Order.insert(testOrder);
    
-    return request(app).delete(`/api/v1/orders/${order.id}`).then(res => {
-      expect(res.body).toEqual(order);
-    });
+    return request(app)
+      .delete(`/api/v1/orders/${order.id}`)
+      .then(res => {
+        expect(res.body).toEqual(order);
+      });
   });
 });
