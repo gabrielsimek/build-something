@@ -5,7 +5,7 @@ import OrderService from '../services.js/OrderService';
 export default Router()
   .post('/', async (req, res, next) => {
     try {
-      const order = await OrderService.create(req.body);
+      const order = await OrderService.create(req.body, req.method);
       res.send(order);
     } catch (error) {
       next(error);
@@ -29,7 +29,8 @@ export default Router()
   })
   .put('/:id', async (req, res, next) => {
     try {
-      const updatedOrder = await Order.update(req.body, req.params.id);
+      
+      const updatedOrder = await OrderService.update(req.body, req.params.id, req.method);
       res.send(updatedOrder);
       
     } catch (error) {
@@ -37,7 +38,7 @@ export default Router()
     }
   })
   .delete('/:id', (req, res, next) => {
-    Order.remove(req.params.id)
+    OrderService.cancel(req.params.id, req.method)
       .then(order => res.send(order))
       .catch(error => next(error));
   });

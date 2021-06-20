@@ -11,7 +11,7 @@ export default class Order {
       this.items = row.items;
     }
 
-    static async insert(userName, items){
+    static async insert({ userName, items }){
       const { rows } = await pool.query(
         `INSERT INTO orders (user_name, items)
         VALUES ($1, $2)
@@ -37,7 +37,7 @@ export default class Order {
       return rows.map(order => new Order(order));
     }
 
-    static async update({ items }, id){
+    static async update(items, id){
       const { rows } = await pool.query(
         `UPDATE orders
         SET items = $1
