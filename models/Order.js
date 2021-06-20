@@ -11,7 +11,7 @@ export default class Order {
       this.items = row.items;
     }
 
-    static async insert({ userName, items }){
+    static async insert(userName, items){
       const { rows } = await pool.query(
         `INSERT INTO orders (user_name, items)
         VALUES ($1, $2)

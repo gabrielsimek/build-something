@@ -1,15 +1,11 @@
 import { Router } from 'express';
 import Order from '../models/Order';
-import sendText from '../lib/utils/twilio.js';
-
+// import sendText from '../lib/utils/twilio.js';
+import OrderService from '../services.js/OrderService';
 export default Router()
   .post('/', async (req, res, next) => {
     try {
-      const message = await sendText(process.env.ORDER_HANDLER_NUMBER, process.env.TWILIO_NUMBER, 'Hello');
-      console.log('orders.js', message)
-      
-      ;
-      const order = await Order.insert(req.body);
+      const order = await OrderService.create(req.body);
       res.send(order);
     } catch (error) {
       next(error);
