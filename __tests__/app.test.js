@@ -62,4 +62,15 @@ describe('/api/v1/orders', () => {
         expect(res.body).toEqual(order);
       });
   });
+  it('returns an error object if the username entered is flagged as toxic  ', async () => {
+    const res = await request(app)
+      .post('/api/v1/orders')
+      .send({
+        userName: 'YouSuck!',
+        items: [{ item: 'tooth-brush', quantity: 2 }, { item: 'tooth-paste', quantity: 5 }]
+      });
+
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({ error: 'Toxic UserName' });
+  });
 });
